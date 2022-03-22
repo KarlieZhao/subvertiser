@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<title>Subvertiser - AR</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="vendor/animate/animate.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
+<!-- we import arjs version without NFT but with marker + location based support -->
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+<link rel="icon" href="./img/icon.png">
+
+<body>
+  <!-- style="margin : 0px; overflow: hidden;" -->
+
+
+  <!-- Navbar -->
+  <div class="navigation container-fluid">
+    <div class="row justify-content-md-center ">
+      <div class="col-md-10 col-sm-12">
+        <nav class="navbar navbar-default">
+          <a class="navbar-brand" href="index.html">
+            <img src="img/logo.png" height="22" alt="Logo">
+          </a>
+          <div class="button_container" id="toggle">
+
+          </div>
+          <div class="overlay" id="overlay">
+            <nav class="overlay-menu">
+              <ul>
+                <li> <a href="camera.html">Camera</a></li>
+                <li> <a href="instruction.html">Instruction</a></li>
+                <li> <a href="index.html">Manifesto</a></li>
+                <li> <a href="gallery.html">Gallery</a></li>
+                <li> <a href="artist.html">Artist</a></li>
+              </ul>
+            </nav>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <!-- End Navbar -->
+
+  <a-scene embedded arjs>
+    <!-- relative url works well -->
+    <!-- next: track multiple markers and get their pos? -->
+    <a-marker preset="pattern" type="pattern" url="./descriptors/marker2.patt">
+      <!-- preset="hiro" > -->
+      <!-- we use cors proxy to avoid cross-origin problems ATTENTION! you need to set up your server -->
+      <a-entity position="0 0 0" scale="0.05 0.05 0.05" gltf-model="https://raw.githack.com/AR-js-org/AR.js/master/aframe/examples/image-tracking/nft/trex/scene.gltf"></a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+
+
+</body>
+
+</html>
+
+<!-- <script>
+    new WOW().init();
+  </script> -->
