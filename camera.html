@@ -20,6 +20,7 @@
 <script src="threex/threex-artoolkitcontext.js"></script>
 <script src="threex/threex-arbasecontrols.js"></script>
 <script src="threex/threex-armarkercontrols.js"></script>
+<script src="threex/threex-arsmoothedcontrols.js"></script>
 
 <link rel="icon" href="./img/icon.png">
 
@@ -60,9 +61,9 @@
   <script>
     var scene, camera, renderer, clock, deltaTime, totalTime;
 
-    var arToolkitSource, arToolkitContext;
+    var arToolkitSource, arToolkitContext, smoothedControls;
 
-    var markerRoot1;
+    var markerRoot1, markerRoot2;
 
     var mesh1;
 
@@ -152,6 +153,16 @@
         patternUrl: "./descriptors/t.patt",
       });
 
+      let smoothedRoot = new THREE.Group();
+      scene.add(smoothedRoot);
+      smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
+        lerpPosition: 0.8,
+        lerpQuaternion: 0.8,
+        lerpScale: 1,
+        // minVisibleDelay: 1,
+        // minUnvisibleDelay: 1,
+      });
+
       let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
       let loader = new THREE.TextureLoader();
       let texture = loader.load('./img/photo-7.jpg', render);
@@ -163,7 +174,7 @@
       mesh1.rotation.x = -Math.PI / 2;
 
       markerRoot1.add(mesh1);
-
+      smoothedRoot.add(mesh1);
       // default normal of a plane is 0,0,1. Apply mesh rotation to it.
       // let clipPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(
       //   new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
@@ -176,7 +187,12 @@
       if (arToolkitSource.ready !== false)
         arToolkitContext.update(arToolkitSource.domElement);
 
+
       if (markerRoot1.visible && markerRoot2.visible) {
+
+        smoothedControls.update(markerRoot1);
+        smoothedControls.update(markerRoot2);
+
         // align clipping plane to scene.
         // renderer.clippingPlanes[0].setFromNormalAndCoplanarPoint(
         //   new THREE.Vector3(0, 1, 0).applyQuaternion(mesh1.getWorldQuaternion()),
@@ -190,29 +206,26 @@
         let ydist = Math.abs(pos1.y - pos2.y);
         let zdist = Math.abs(pos1.z - pos2.z);
 
-        console.log(xdist);
-        console.log(ydist);
-        console.log(zdist);
-        // console.log("=== pos 1 ====");
-        // console.log("x: " + pos1.x);
-        // console.log("y: " + pos1.y);
-        // console.log("z: " + pos1.z);
-        // console.log("=== pos 2 ====");
-        // console.log("x: " + pos2.x);
-        // console.log("y: " + pos2.y);
-        // console.log("z: " + pos2.z);
+        // console.log(xdist);
+        // console.log(ydist);
+        // console.log(zdist);
+
         mesh1.position.x = (pos2.x - pos1.x) / 2;
         mesh1.position.y = (pos2.z - pos1.z) / 2;
         mesh1.position.z = -(pos2.y - pos1.y) / 2;
 
         mesh1.scale.set(xdist * 2, ydist * 2, 1.0);
         //todo: calculate rotation!
-
-        //  mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
+        // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
         // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
 
       } else if (markerRoot1.visible) {
         arToolkitContext.update(arToolkitSource.domElement);
+        smoothedControls.update(markerRoot1);
+
+        //Todo: prompt/alert => only 1 marker detected
+      } else {
+        //Todo: prompt/alert => no marker detected
       }
     }
 
