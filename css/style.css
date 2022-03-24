@@ -43,8 +43,9 @@ h2 {
   text-transform: uppercase;
   font-weight: 700;
 }
-a{
-	font-style: italic;
+
+a {
+  font-style: italic;
 }
 
 .min-100 {
@@ -576,6 +577,11 @@ a{
   padding-bottom: 10rem;
 }
 
+.logo {
+  height: 4em;
+  max-height: 120px;
+}
+
 .stories-2-title {
   font-size: 2.5rem;
   font-family: 'Reenie Beanie', cursive;
@@ -586,7 +592,7 @@ a{
   background-color: #000;
   color: #fff;
   padding-top: 15rem;
-  padding-bottom: 10rem;
+  padding-bottom: 3rem;
 }
 
 /* Events */
@@ -606,8 +612,8 @@ a{
   font-size: 1.5em;
   background-color: #000;
   color: #fff;
-  padding-top: 15rem;
-  padding-bottom: 10rem;
+  padding-top: 11rem;
+  padding-bottom: 1rem;
 }
 
 /* Contact Form */
@@ -615,7 +621,7 @@ a{
   font-size: 1.2em;
   background-color: #000;
   color: #fff;
-  padding-bottom: 11rem;
+  padding-bottom: 4rem;
 }
 
 .contact-form .btn-primary {
