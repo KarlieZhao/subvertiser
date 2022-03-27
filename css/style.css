@@ -8,7 +8,7 @@ body {
 }
 
 html {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .btn {
@@ -578,7 +578,7 @@ a {
 }
 
 .logo {
-  height: 4em;
+  height: 5rem;
   max-height: 120px;
 }
 
@@ -655,7 +655,7 @@ a {
   font-size: 1.2em;
   color: #000;
   padding-top: 7rem;
-  padding-bottom: 7rem;
+  padding-bottom: 4rem;
 }
 
 @media (max-width: 767px) {
