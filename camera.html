@@ -19,6 +19,8 @@
 <script src="threex/threex-armarkercontrols.js"></script>
 <script src="threex/threex-arsmoothedcontrols.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
 <link rel="icon" href="./img/icon.png">
 
 <body>
@@ -55,8 +57,13 @@
     </div>
     <!-- End Navbar -->
 
+    <div id="hint" class="hintbox" style="opacity: 0;">
+        Nothing shows up? Try the following...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
+        <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
+    </div>
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
+        var blankTime;
 
         var arToolkitSource, arToolkitContext, smoothedControls;
 
@@ -90,6 +97,7 @@
             clock = new THREE.Clock();
             deltaTime = 0;
             totalTime = 0;
+            blankTime = 0;
 
             ////////////////////////////////////////////////////////////
             // setup arToolkitSource
@@ -140,14 +148,14 @@
             scene.add(markerRoot1);
             let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
                 type: 'pattern',
-                patternUrl: "./descriptors/hiro.patt",
+                patternUrl: "./descriptors/t.patt",
             });
 
             markerRoot2 = new THREE.Group();
             scene.add(markerRoot2);
             let markerControls2 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, {
                 type: 'pattern',
-                patternUrl: "./descriptors/t.patt",
+                patternUrl: "./descriptors/mbta.patt",
             });
 
             let smoothedRoot = new THREE.Group();
@@ -185,6 +193,8 @@
                 arToolkitContext.update(arToolkitSource.domElement);
 
             if (markerRoot1.visible && markerRoot2.visible) {
+                blankTime = 0;
+                clearPrompt();
                 smoothedControls.update(markerRoot1);
                 smoothedControls.update(markerRoot2);
 
@@ -215,19 +225,43 @@
                 // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
 
             } else if (markerRoot1.visible) {
+                blankTime = 0;
+                clearPrompt();
                 arToolkitContext.update(arToolkitSource.domElement);
                 smoothedControls.update(markerRoot1);
 
                 //Todo: prompt/alert => only 1 marker detected
             } else {
                 arToolkitContext.update(arToolkitSource.domElement);
+                blankTime++;
 
-                //Todo: prompt/alert => no marker detected
+                if (blankTime >= 400) {
+                    showPrompt();
+                }
+            }
+        }
+
+        function showPrompt() {
+            var hint = document.getElementById("hint");
+            let opacity = Number(window.getComputedStyle(hint).getPropertyValue("opacity"));
+            if (opacity < 1) {
+                opacity += +0.05;
+                hint.style.opacity = opacity;
+            }
+        }
+
+        function clearPrompt() {
+            var hint = document.getElementById("hint");
+            let opacity = Number(window.getComputedStyle(hint).getPropertyValue("opacity"));
+            if (opacity > 0) {
+                opacity -= +0.05;
+                hint.style.opacity = opacity;
             }
         }
 
         function render() {
             renderer.render(scene, camera);
+
         }
 
 
