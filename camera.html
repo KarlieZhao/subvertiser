@@ -161,9 +161,9 @@
             let smoothedRoot = new THREE.Group();
             scene.add(smoothedRoot);
             smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
-                lerpPosition: 0.8,
-                lerpQuaternion: 0.8,
-                lerpScale: 1,
+                lerpPosition: 0.1,
+                lerpQuaternion: 0.01,
+                lerpScale: 0.1,
                 //minVisibleDelay: 1,
                 //minUnvisibleDelay: 1,
             });
@@ -185,6 +185,8 @@
             //   new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
             // renderer.clippingPlanes = [clipPlane];
         }
+        let lastXdist = 0,
+            lastYdist = 0;
 
 
         function update() {
@@ -219,10 +221,14 @@
                 mesh1.position.y = (pos2.z - pos1.z) / 2;
                 mesh1.position.z = -(pos2.y - pos1.y) / 2;
 
-                mesh1.scale.set(xdist * 2, ydist * 2, 1.0);
+                let scaleX = Math.lerp(lastXdist, xdist, 0.05);
+                let scaleY = Math.lerp(lastYdist, ydist, 0.05);
+                mesh1.scale.set(scaleX * 2, scaleY * 2, 1.0);
                 //todo: calculate rotation!
                 // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
                 // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
+                lastXdist = xdist;
+                lastYdist = ydist;
 
             } else if (markerRoot1.visible) {
                 blankTime = 0;
@@ -264,7 +270,6 @@
 
         }
 
-
         function animate() {
             requestAnimationFrame(animate);
             deltaTime = clock.getDelta();
@@ -272,6 +277,12 @@
             update();
             render();
         }
+
+        Math.lerp = function(value1, value2, amount) {
+            amount = amount < 0 ? 0 : amount;
+            amount = amount > 1 ? 1 : amount;
+            return value1 + (value2 - value1) * amount;
+        };
     </script>
 </body>
 
