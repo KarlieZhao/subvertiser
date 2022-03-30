@@ -1,17 +1,25 @@
 [{
         "name": "Charlie on the MTA",
         "filePath": "./artworks/artwork-1.jpg",
-        "width": 1400,
-        "height": 1400,
+        "width": 1024,
+        "height": 1024,
         "ratio": 1,
         "description": ""
     },
     {
         "name": "Ahha! Graffiti!",
         "filePath": "./artworks/artwork-2.png",
-        "width": 1400,
-        "height": 2289,
+        "width": 1024,
+        "height": 1674,
         "ratio": 0.611,
+        "description": ""
+    },
+    {
+        "name": "Graffiti!",
+        "filePath": "./artworks/artwork-3.png",
+        "width": 1024,
+        "height": 1195,
+        "ratio": 0.857,
         "description": ""
     }
 

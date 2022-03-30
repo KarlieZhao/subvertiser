@@ -90,7 +90,7 @@
         }
 
         function initialize() {
-            console.log("last updated: 17:50;");
+            console.log("last updated: 18:24;");
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -208,7 +208,7 @@
 
         var lastDist = new THREE.Vector3(0, 0, 0);
         var decideRatio = false;
-        var current_artwork_index = 0;
+        var current_artwork_index = 2;
 
         function preprocess() {
             let pos1 = markerRoot1.getWorldPosition();
@@ -272,7 +272,6 @@
                 let xdist = Math.abs(pos1.x - pos2.x);
                 let ydist = Math.abs(pos1.y - pos2.y);
 
-
                 console.log(xdist + ", " + ydist);
 
                 let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.1);
@@ -304,9 +303,9 @@
 
                 //Todo: prompt/alert => only 1 marker detected
             } else {
-                if (decideRatio) {
-                    mesh.scale.x = 0.0;
-                }
+                // if (decideRatio) {
+                mesh.scale.x = 0.0;
+                // }
                 arToolkitContext.update(arToolkitSource.domElement);
                 blankTime++;
 
