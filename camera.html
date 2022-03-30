@@ -24,9 +24,6 @@
 <link rel="icon" href="./img/icon.png">
 
 <body>
-    <!-- style="margin : 0px; overflow: hidden;" -->
-
-
     <!-- Navbar -->
     <div class="navigation container-fluid">
         <div class="row justify-content-md-center ">
@@ -61,6 +58,7 @@
         Nothing shows up? Try the following...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
         <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
     </div>
+    <script src="./parseJson.js"></script>
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
         var blankTime;
@@ -68,13 +66,32 @@
         var arToolkitSource, arToolkitContext, smoothedControls;
 
         var markerRoot1, markerRoot2;
+        var smoothedRoot;
 
-        var mesh1;
+        var mesh = [];
 
-        initialize();
-        animate();
+        var artworkList;
+
+        let geometry1;
+
+        let material = [];
+
+        fetchArtworks();
+
+        async function fetchArtworks() {
+            const response = await fetch('./artworks.json');
+            if (!response.ok) {
+                const message = `Error occured when fetching json: ${response.status}`;
+                throw new Error(message);
+            }
+            artworkList = await response.json();
+            // waits until the request completes...
+            initialize();
+            animate();
+        }
 
         function initialize() {
+            // console.log(artworkList);
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -158,7 +175,7 @@
                 patternUrl: "./descriptors/mbta.patt",
             });
 
-            let smoothedRoot = new THREE.Group();
+            smoothedRoot = new THREE.Group();
             scene.add(smoothedRoot);
             smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
                 lerpPosition: 0.1,
@@ -168,25 +185,55 @@
                 //minUnvisibleDelay: 1,
             });
 
-            let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
+            geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
             let loader = new THREE.TextureLoader();
-            let texture = loader.load('./images/artwork-1.jpg', render);
-            let material1 = new THREE.MeshBasicMaterial({
-                map: texture
-            });
 
-            mesh1 = new THREE.Mesh(geometry1, material1);
-            mesh1.rotation.x = -Math.PI / 2;
+            let texture = [];
+            for (let i = 0; i < artworkList.length; i++) {
+                texture[i] = loader.load(artworkList[i].filePath, render);
+                material[i] = new THREE.MeshBasicMaterial({
+                    map: texture[i]
+                });
 
-            markerRoot1.add(mesh1);
-            smoothedRoot.add(mesh1);
+            }
             // default normal of a plane is 0,0,1. Apply mesh rotation to it.
             // let clipPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(
             //   new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
             // renderer.clippingPlanes = [clipPlane];
         }
-        let lastXdist = 0,
-            lastYdist = 0;
+
+        var lastDist = new THREE.Vector3(0, 0, 0);
+        var decideRatio = false;
+        var current_artwork_index = 0;
+
+        function preprocess() {
+            let pos1 = markerRoot1.getWorldPosition();
+            let pos2 = markerRoot2.getWorldPosition();
+
+            let xdist = Math.abs(pos1.x - pos2.x);
+            let ydist = Math.abs(pos1.y - pos2.y);
+
+            let ratio = xdist / ydist;
+            console.log("marker ratio: " + ratio);
+
+            let min_ratio_diff = 10;
+
+            for (let i = 0; i < artworkList.length; i++) {
+
+                var a_dimension = artworkList[i].ratio;
+                console.log("artwork ratio: " + a_dimension);
+
+                if (Math.abs(ratio - a_dimension) <= min_ratio_diff) {
+                    min_ratio_diff = Math.abs(ratio - a_dimension);
+                    current_artwork_index = i;
+                }
+            }
+            mesh = new THREE.Mesh(geometry1, material[current_artwork_index]);
+            mesh.rotation.x = -Math.PI / 2;
+            markerRoot1.add(mesh);
+            smoothedRoot.add(mesh);
+            decideRatio = true;
+        }
 
 
         function update() {
@@ -197,47 +244,57 @@
             if (markerRoot1.visible && markerRoot2.visible) {
                 blankTime = 0;
                 clearPrompt();
+                if (!decideRatio) {
+                    preprocess();
+                    return;
+                }
+
                 smoothedControls.update(markerRoot1);
                 smoothedControls.update(markerRoot2);
 
                 // align clipping plane to scene.
                 // renderer.clippingPlanes[0].setFromNormalAndCoplanarPoint(
-                //   new THREE.Vector3(0, 1, 0).applyQuaternion(mesh1.getWorldQuaternion()),
-                //   mesh1.getWorldPosition()
+                //   new THREE.Vector3(0, 1, 0).applyQuaternion(mesh.getWorldQuaternion()),
+                //   mesh.getWorldPosition()
                 // );
 
                 let pos1 = markerRoot1.getWorldPosition();
                 let pos2 = markerRoot2.getWorldPosition();
 
                 let xdist = Math.abs(pos1.x - pos2.x);
-                let ydist = Math.abs(pos1.y - pos2.y);
-                let zdist = Math.abs(pos1.z - pos2.z);
+                let ydist = Math.abs(pos1.z - pos2.z);
+                let zdist = Math.abs(pos1.y - pos2.y);
 
-                // console.log(xdist);
-                // console.log(ydist);
-                // console.log(zdist);
+                let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.1);
+                let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.1);
 
-                mesh1.position.x = (pos2.x - pos1.x) / 2;
-                mesh1.position.y = (pos2.z - pos1.z) / 2;
-                mesh1.position.z = -(pos2.y - pos1.y) / 2;
+                let scaleX = 2500 * (lerpedXdist / artworkList[current_artwork_index].width);
+                let scaleY = 2500 * (lerpedYdist / artworkList[current_artwork_index].height);
 
-                let scaleX = Math.lerp(lastXdist, xdist, 0.05);
-                let scaleY = Math.lerp(lastYdist, ydist, 0.05);
-                mesh1.scale.set(scaleX * 2, scaleY * 2, 1.0);
-                //todo: calculate rotation!
+                mesh.position.x = (pos2.x - pos1.x) / 2;
+                mesh.position.y = (pos2.z - pos1.z) / 2;
+                mesh.position.z = -(pos2.y - pos1.y) / 2;
+
+                mesh.scale.set(scaleX, scaleY, 1.0);
+
+                lastDist.x = xdist;
+                lastDist.y = ydist;
+
+                //todo: calculate rotation
                 // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
                 // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
-                lastXdist = xdist;
-                lastYdist = ydist;
 
-            } else if (markerRoot1.visible) {
-                blankTime = 0;
-                clearPrompt();
-                arToolkitContext.update(arToolkitSource.domElement);
-                smoothedControls.update(markerRoot1);
+                // } else if (markerRoot1.visible) {
+                //     blankTime = 0;
+                //     clearPrompt();
+                //     arToolkitContext.update(arToolkitSource.domElement);
+                //     smoothedControls.update(markerRoot1);
 
                 //Todo: prompt/alert => only 1 marker detected
             } else {
+                if (decideRatio) {
+                    mesh.position.x = -1000.0;
+                }
                 arToolkitContext.update(arToolkitSource.domElement);
                 blankTime++;
 
