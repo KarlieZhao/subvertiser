@@ -58,7 +58,6 @@
         Nothing shows up? Try the following...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
         <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
     </div>
-    <script src="./parseJson.js"></script>
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
         var blankTime;
@@ -262,14 +261,14 @@
                 let pos2 = markerRoot2.getWorldPosition();
 
                 let xdist = Math.abs(pos1.x - pos2.x);
-                let ydist = Math.abs(pos1.z - pos2.z);
-                let zdist = Math.abs(pos1.y - pos2.y);
+                let zdist = Math.abs(pos1.z - pos2.z);
+                let ydist = Math.abs(pos1.y - pos2.y);
 
                 let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.1);
                 let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.1);
 
-                let scaleX = 2500 * (lerpedXdist / artworkList[current_artwork_index].width);
-                let scaleY = 2500 * (lerpedYdist / artworkList[current_artwork_index].height);
+                let scaleX = 1.7 * lerpedXdist;
+                let scaleY = 1.7 * lerpedYdist;
 
                 mesh.position.x = (pos2.x - pos1.x) / 2;
                 mesh.position.y = (pos2.z - pos1.z) / 2;
