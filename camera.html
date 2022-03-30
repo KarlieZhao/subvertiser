@@ -90,7 +90,7 @@
         }
 
         function initialize() {
-            console.log("last updated: 18:24;");
+            console.log("last updated: 18:36;");
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -178,7 +178,7 @@
             scene.add(smoothedRoot);
             smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
                 lerpPosition: 0.1,
-                lerpQuaternion: 0.01,
+                lerpQuaternion: 0.1,
                 lerpScale: 0.1,
                 //minVisibleDelay: 1,
                 //minUnvisibleDelay: 1,
@@ -269,22 +269,29 @@
 
                 let pos1 = markerRoot1.getWorldPosition();
                 let pos2 = markerRoot2.getWorldPosition();
+                console.log("pos1: x: " + pos1.x + "y: " + pos1.y);
+                console.log("pos2: x: " + pos2.x + "y: " + pos2.y);
+
                 let xdist = Math.abs(pos1.x - pos2.x);
                 let ydist = Math.abs(pos1.y - pos2.y);
 
-                console.log(xdist + ", " + ydist);
 
-                let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.1);
-                let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.1);
+                let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.3);
+                let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.3);
 
-                let scaleX = 2 * lerpedXdist + 0.5;
-                let scaleY = 1.3 * lerpedYdist + 0.5;
+                let scaleX = 3 * lerpedXdist;
+                let scaleY = 2 * lerpedYdist;
 
                 mesh.position.x = (pos2.x - pos1.x) / 2;
                 mesh.position.y = (pos2.z - pos1.z) / 2;
                 mesh.position.z = -(pos2.y - pos1.y) / 2;
 
-                console.log(mesh.position.z);
+                if (mesh.position.z > 100 || mesh.position.z < -100) {
+                    mesh.position.z = 0;
+                }
+                if (mesh.position.y > 100 || mesh.position.y < -100) {
+                    mesh.position.y = 0;
+                }
 
                 mesh.scale.set(scaleX, scaleY, 1.0);
 
