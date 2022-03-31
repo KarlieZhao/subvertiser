@@ -211,15 +211,12 @@
                 let ydist = Math.abs(pos1.y - pos2.y);
                 let zdist = Math.abs(pos1.z - pos2.z);
 
-                // console.log(xdist);
-                // console.log(ydist);
-                // console.log(zdist);
-
                 mesh1.position.x = (pos2.x - pos1.x) / 2;
                 mesh1.position.y = (pos2.z - pos1.z) / 2;
                 mesh1.position.z = -(pos2.y - pos1.y) / 2;
 
                 mesh1.scale.set(xdist * 2, ydist * 2, 1.0);
+
                 //todo: calculate rotation!
                 // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
                 // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
