@@ -15,11 +15,11 @@ ARjs.Source = THREEx.ArToolkitSource = function(parameters) {
             sourceUrl: null,
 
             // resolution of at which we initialize in the source image
-            sourceWidth: 1280,
-            sourceHeight: 960,
+            sourceWidth: 640,
+            sourceHeight: 480,
             // resolution displayed for the source 
-            displayWidth: 1280,
-            displayHeight: 960,
+            displayWidth: 640,
+            displayHeight: 480,
         }
         //////////////////////////////////////////////////////////////////////////////
         //		setParameters
