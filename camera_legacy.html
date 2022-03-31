@@ -74,6 +74,8 @@
         animate();
 
         function initialize() {
+
+            console.log("last updated: 22:47");
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -160,9 +162,9 @@
             let smoothedRoot = new THREE.Group();
             scene.add(smoothedRoot);
             smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
-                lerpPosition: 0.8,
-                lerpQuaternion: 0.8,
-                lerpScale: 1,
+                lerpPosition: 0.1,
+                lerpQuaternion: 0.1,
+                lerpScale: 0.1,
                 //minVisibleDelay: 1,
                 //minUnvisibleDelay: 1,
             });
@@ -210,6 +212,7 @@
                 let xdist = Math.abs(pos1.x - pos2.x);
                 let ydist = Math.abs(pos1.y - pos2.y);
                 let zdist = Math.abs(pos1.z - pos2.z);
+
 
                 let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.3);
                 let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.3);
