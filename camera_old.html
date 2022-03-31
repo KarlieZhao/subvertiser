@@ -8,6 +8,9 @@
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="vendor/animate/animate.css" rel="stylesheet" type="text/css" />
 <link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script> -->
+<!-- we import arjs version without NFT but with marker + location based support -->
+<!-- <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script> -->
 <script src='js/three.js'></script>
 <!-- include jsartookit -->
 <script src="jsartoolkit5/artoolkit.min.js"></script>
@@ -18,8 +21,6 @@
 <script src="threex/threex-arbasecontrols.js"></script>
 <script src="threex/threex-armarkercontrols.js"></script>
 <script src="threex/threex-arsmoothedcontrols.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
 <link rel="icon" href="./img/icon.png">
 
@@ -57,19 +58,15 @@
     </div>
     <!-- End Navbar -->
 
-    <div id="hint" class="hintbox" style="opacity: 0;">
-        Nothing shows up? Try the following...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
-        <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
-    </div>
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
-        var blankTime;
 
         var arToolkitSource, arToolkitContext, smoothedControls;
 
         var markerRoot1, markerRoot2;
 
         var mesh1;
+
         initialize();
         animate();
 
@@ -87,7 +84,7 @@
                 alpha: true
             });
             renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-            renderer.setSize(640, 480);
+            renderer.setSize(1280, 720);
             renderer.domElement.style.position = 'absolute'
             renderer.domElement.style.top = '0px'
             renderer.domElement.style.left = '0px'
@@ -96,7 +93,6 @@
             clock = new THREE.Clock();
             deltaTime = 0;
             totalTime = 0;
-            blankTime = 0;
 
             ////////////////////////////////////////////////////////////
             // setup arToolkitSource
@@ -147,14 +143,14 @@
             scene.add(markerRoot1);
             let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
                 type: 'pattern',
-                patternUrl: "./descriptors/t.patt",
+                patternUrl: "./descriptors/hiro.patt",
             });
 
             markerRoot2 = new THREE.Group();
             scene.add(markerRoot2);
             let markerControls2 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, {
                 type: 'pattern',
-                patternUrl: "./descriptors/mbta.patt",
+                patternUrl: "./descriptors/t.patt",
             });
 
             let smoothedRoot = new THREE.Group();
@@ -163,13 +159,13 @@
                 lerpPosition: 0.8,
                 lerpQuaternion: 0.8,
                 lerpScale: 1,
-                //minVisibleDelay: 1,
-                //minUnvisibleDelay: 1,
+                // minVisibleDelay: 1,
+                // minUnvisibleDelay: 1,
             });
 
-            geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
+            let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
             let loader = new THREE.TextureLoader();
-            let texture = loader.load('./artworks/artwork-3.png', render);
+            let texture = loader.load('./artworks/artwork-1.jpg', render);
             let material1 = new THREE.MeshBasicMaterial({
                 map: texture
             });
@@ -191,9 +187,9 @@
             if (arToolkitSource.ready !== false)
                 arToolkitContext.update(arToolkitSource.domElement);
 
+
             if (markerRoot1.visible && markerRoot2.visible) {
-                blankTime = 0;
-                clearPrompt();
+
                 smoothedControls.update(markerRoot1);
                 smoothedControls.update(markerRoot2);
 
@@ -210,54 +206,32 @@
                 let ydist = Math.abs(pos1.y - pos2.y);
                 let zdist = Math.abs(pos1.z - pos2.z);
 
+                // console.log(xdist);
+                // console.log(ydist);
+                // console.log(zdist);
+
                 mesh1.position.x = (pos2.x - pos1.x) / 2;
                 mesh1.position.y = (pos2.z - pos1.z) / 2;
                 mesh1.position.z = -(pos2.y - pos1.y) / 2;
 
-                mesh1.scale.set(xdist * 4, ydist * 2, 1.0);
-
+                mesh1.scale.set(xdist * 2, ydist * 2, 1.0);
                 //todo: calculate rotation!
                 // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
                 // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
 
             } else if (markerRoot1.visible) {
-                blankTime = 0;
-                clearPrompt();
                 arToolkitContext.update(arToolkitSource.domElement);
                 smoothedControls.update(markerRoot1);
 
                 //Todo: prompt/alert => only 1 marker detected
             } else {
-                arToolkitContext.update(arToolkitSource.domElement);
-                blankTime++;
-
-                if (blankTime >= 400) {
-                    showPrompt();
-                }
+                //Todo: prompt/alert => no marker detected
             }
         }
 
-        function showPrompt() {
-            var hint = document.getElementById("hint");
-            let opacity = Number(window.getComputedStyle(hint).getPropertyValue("opacity"));
-            if (opacity < 1) {
-                opacity += +0.05;
-                hint.style.opacity = opacity;
-            }
-        }
-
-        function clearPrompt() {
-            var hint = document.getElementById("hint");
-            let opacity = Number(window.getComputedStyle(hint).getPropertyValue("opacity"));
-            if (opacity > 0) {
-                opacity -= +0.05;
-                hint.style.opacity = opacity;
-            }
-        }
 
         function render() {
             renderer.render(scene, camera);
-
         }
 
 
