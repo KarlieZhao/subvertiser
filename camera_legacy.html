@@ -185,6 +185,7 @@
             // renderer.clippingPlanes = [clipPlane];
         }
 
+        var lastDist = new THREE.Vector3(0, 0, 0);
 
         function update() {
             // update artoolkit on every frame
@@ -210,11 +211,17 @@
                 let ydist = Math.abs(pos1.y - pos2.y);
                 let zdist = Math.abs(pos1.z - pos2.z);
 
+                let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.3);
+                let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.3);
+
                 mesh1.position.x = (pos2.x - pos1.x) / 2;
                 mesh1.position.y = (pos2.z - pos1.z) / 2;
                 mesh1.position.z = -(pos2.y - pos1.y) / 2;
 
-                mesh1.scale.set(xdist * 4, ydist * 2, 1.0);
+                mesh1.scale.set(xdist * 2, ydist * 2, 1.0);
+
+                lastDist.x = xdist;
+                lastDist.y = ydist;
 
                 //todo: calculate rotation!
                 // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
@@ -268,6 +275,12 @@
             update();
             render();
         }
+
+        Math.lerp = function(value1, value2, amount) {
+            amount = amount < 0 ? 0 : amount;
+            amount = amount > 1 ? 1 : amount;
+            return value1 + (value2 - value1) * amount;
+        };
     </script>
 </body>
 

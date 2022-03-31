@@ -90,7 +90,7 @@
         }
 
         function initialize() {
-            console.log("last updated: 21:19;");
+            console.log("last updated:22:20;");
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -259,12 +259,6 @@
 
                 smoothedControls.update(markerRoot1);
                 smoothedControls.update(markerRoot2);
-
-                // align clipping plane to scene.
-                // renderer.clippingPlanes[0].setFromNormalAndCoplanarPoint(
-                //   new THREE.Vector3(0, 1, 0).applyQuaternion(mesh.getWorldQuaternion()),
-                //   mesh.getWorldPosition()
-                // );
 
                 let pos1 = markerRoot1.getWorldPosition();
                 let pos2 = markerRoot2.getWorldPosition();
