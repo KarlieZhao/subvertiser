@@ -22,35 +22,6 @@
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
 
-
-    <!-- Navbar -->
-    <div class="navigation container-fluid">
-        <div class="row justify-content-md-center ">
-            <div class="col-md-10 col-sm-12">
-                <nav class="navbar navbar-default">
-                    <a class="navbar-brand" href="index.html">
-                        <img src="img/banner_white.png" class="logo" alt="Logo">
-                    </a>
-                    <div class="button_container" id="toggle">
-                        <span class="top"></span>
-                        <span class="middle"></span>
-                        <span class="bottom"></span>
-                    </div>
-                    <div class="overlay" id="overlay">
-                        <nav class="overlay-menu">
-                            <ul>
-                                <li> <a href="camera.html">Camera</a></li>
-                                <li> <a href="instruction.html">Instruction</a></li>
-                                <li> <a href="index.html">Manifesto</a></li>
-                                <li> <a href="gallery.html">Gallery</a></li>
-                                <li> <a href="artist.html">Artist</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
     <!-- End Navbar -->
 
     <!-- <div id="hint" class="hintbox" style="opacity: 0;">
@@ -148,7 +119,7 @@
 
             let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
             let loader = new THREE.TextureLoader();
-            let texture = loader.load('./artworks/artwork-3.png', render);
+            let texture = loader.load('./artworks/earth.jpg', render);
             let material1 = new THREE.MeshBasicMaterial({
                 map: texture
             });
