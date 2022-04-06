@@ -230,13 +230,6 @@
                 // mesh1.applyQuaternion(sceneGroup.getWorldQuaternion());
                 // console.log("mesh: " + mesh1.getWorldPosition().x + ", " + mesh1.getWorldPosition().y + "; " + mesh1.getWorldPosition().z);
 
-            } else if (markerRoot1.visible) {
-                blankTime = 0;
-                clearPrompt();
-                arToolkitContext.update(arToolkitSource.domElement);
-                smoothedControls.update(markerRoot1);
-
-                //Todo: prompt/alert => only 1 marker detected
             } else {
                 arToolkitContext.update(arToolkitSource.domElement);
                 blankTime++;
