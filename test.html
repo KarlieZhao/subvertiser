@@ -252,6 +252,9 @@
             if (arToolkitSource.ready !== false)
                 arToolkitContext.update(arToolkitSource.domElement);
 
+            smoothedControls.update(markerRoot1);
+            smoothedControls.update(markerRoot2);
+
             if (markerRoot1.visible && markerRoot2.visible) {
                 blankTime = 0;
                 // clearPrompt();
@@ -259,13 +262,8 @@
                 //     preprocess();
                 //     return;
                 // }
-
-                smoothedControls.update(markerRoot1);
-                smoothedControls.update(markerRoot2);
-
                 let pos1 = markerRoot1.getWorldPosition();
                 let pos2 = markerRoot2.getWorldPosition();
-
 
                 if (Math.abs(pos1.x) < 5 && Math.abs(pos1.y) < 5 && Math.abs(pos2.x) < 5 && Math.abs(pos2.y) < 5) {
                     let xdist = Math.abs(pos1.x - pos2.x);
