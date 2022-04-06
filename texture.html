@@ -22,13 +22,6 @@
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
 
-    <!-- End Navbar -->
-
-    <!-- <div id="hint" class="hintbox" style="opacity: 0;">
-        Nothing shows up? Try the following...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
-        <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
-    </div> -->
-
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
 
@@ -114,12 +107,12 @@
             scene.add(markerRoot1);
             let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
                 type: 'pattern',
-                patternUrl: "./descriptors/hiro.patt",
+                patternUrl: "data/hiro.patt",
             })
 
             let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
             let loader = new THREE.TextureLoader();
-            let texture = loader.load('./artworks/earth.jpg', render);
+            let texture = loader.load('images/earth.jpg', render);
             let material1 = new THREE.MeshBasicMaterial({
                 map: texture
             });
