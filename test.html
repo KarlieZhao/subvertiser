@@ -20,7 +20,6 @@
     <script src="threex/threex-armarkercontrols.js"></script>
     <script src="threex/threex-arsmoothedcontrols.js"></script>
 
-
     <link rel="icon" href="./img/icon.png">
 </head>
 
@@ -56,10 +55,15 @@
     </div>
     <!-- End Navbar -->
 
-    <!-- <div id="hint" class="hintbox" style="opacity: 0;">
+    <div id="hint" class="hintbox" style="opacity: 0;">
         Nothing shows up? Try the following...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
         <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
-    </div> -->
+    </div>
+
+    <div id="oneMarkerHint" class="hintbox" style="opacity: 0;">
+        Only one marker detected...<br> - Include the entire ad in your screen;<br> - Stay still & as close as possible to the ad; <br> Still nothing?
+        <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
+    </div>
 
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -93,7 +97,7 @@
         }
 
         function initialize() {
-            console.log("last updated:18:00;");
+            console.log("last updated:15:00;");
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -187,7 +191,10 @@
                 //minUnvisibleDelay: 1,
             });
 
-            geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
+            let current_artwork_index = Math.floor(Math.random() * artworkList.length);
+            let planeWidth = artworkList[current_artwork_index].ratio;
+
+            geometry1 = new THREE.PlaneBufferGeometry(planeWidth, 1, 4, 4);
             let loader = new THREE.TextureLoader();
 
             let texture = [];
@@ -197,7 +204,6 @@
                     map: texture[i]
                 });
             }
-
             mesh = new THREE.Mesh(geometry1, material[current_artwork_index]);
             mesh.rotation.x = -Math.PI / 2;
             markerRoot1.add(mesh);
@@ -208,9 +214,8 @@
             // renderer.clippingPlanes = [clipPlane];
         }
 
-        var lastDist = new THREE.Vector3(0, 0, 0);
+        var lastDist = new THREE.Vector3(1, 1, 0);
         var decideRatio = false;
-        var current_artwork_index = 2;
 
         function preprocess() {
             let pos1 = markerRoot1.getWorldPosition();
@@ -241,11 +246,9 @@
             }
             // mesh = new THREE.Mesh(geometry1, material[current_artwork_index]);
             // mesh.rotation.x = -Math.PI / 2;
-            // markerRoot1.add(mesh);
-            // smoothedRoot.add(mesh);
             decideRatio = true;
         }
-
+        let currentScale = 2;
 
         function update() {
             // update artoolkit on every frame
@@ -256,58 +259,47 @@
             smoothedControls.update(markerRoot2);
 
             if (markerRoot1.visible && markerRoot2.visible) {
+
                 blankTime = 0;
-                // clearPrompt();
-                // if (!decideRatio) {
-                //     preprocess();
-                //     return;
-                // }
+                clearPrompt();
                 let pos1 = markerRoot1.getWorldPosition();
                 let pos2 = markerRoot2.getWorldPosition();
 
                 if (Math.abs(pos1.x) < 5 && Math.abs(pos1.y) < 5 && Math.abs(pos2.x) < 5 && Math.abs(pos2.y) < 5) {
+
                     let xdist = Math.abs(pos1.x - pos2.x);
                     let ydist = Math.abs(pos1.y - pos2.y);
 
-                    let lerpedXdist = Math.lerp(lastDist.x, xdist, 0.3);
-                    let lerpedYdist = Math.lerp(lastDist.y, ydist, 0.3);
-
-                    let scaleX = 2 * lerpedXdist;
-                    let scaleY = 2 * lerpedYdist;
+                    let scale = 2 * Math.min(xdist, ydist);
+                    currentScale = Math.lerp(currentScale, scale, 0.3);
+                    mesh.scale.set(Math.floor(currentScale), Math.floor(currentScale), 1.0);
 
                     mesh.position.x = (pos2.x - pos1.x) / 2;
                     mesh.position.y = (pos2.z - pos1.z) / 2;
                     mesh.position.z = -(pos2.y - pos1.y) / 2;
 
-                    mesh.scale.set(4.0, 4.0, 1.0);
-
-                    lastDist.x = xdist;
-                    lastDist.y = ydist;
-                } else {
-                    console.log("pos1: x: " + pos1.x + " y: " + pos1.y);
-                    console.log("pos2: x: " + pos2.x + " y: " + pos2.y);
+                    // } else {
+                    //     console.log("pos1: x: " + pos1.x + " y: " + pos1.y);
+                    //     console.log("pos2: x: " + pos2.x + " y: " + pos2.y);
                 }
             } else if (markerRoot1.visible) {
                 // console.log("marker 1 visible");
-                blankTime = 0;
-                // clearPrompt();
+                oneMarkerPrompt();
+
                 arToolkitContext.update(arToolkitSource.domElement);
                 smoothedControls.update(markerRoot1);
 
                 //Todo: prompt/alert => only 1 marker detected
             } else {
-                // if (decideRatio) {
-                //mesh.scale.x = 0.0;
-                // }
+                clearOneMarkerPrompt();
                 arToolkitContext.update(arToolkitSource.domElement);
                 blankTime++;
 
                 if (blankTime >= 400) {
-                    // showPrompt();
+                    showPrompt();
                 }
             }
         }
-
 
         function showPrompt() {
             var hint = document.getElementById("hint");
@@ -327,9 +319,26 @@
             }
         }
 
+        function oneMarkerPrompt() {
+            var hint = document.getElementById("oneMarkerHint");
+            let opacity = Number(window.getComputedStyle(hint).getPropertyValue("opacity"));
+            if (opacity < 1) {
+                opacity += +0.05;
+                hint.style.opacity = opacity;
+            }
+        }
+
+        function clearOneMarkerPrompt() {
+            let hint = document.getElementById("oneMarkerHint");
+            let opacity = Number(window.getComputedStyle(hint).getPropertyValue("opacity"));
+            if (opacity > 0) {
+                opacity -= +0.05;
+                hint.style.opacity = opacity;
+            }
+        }
+
         function render() {
             renderer.render(scene, camera);
-
         }
 
         function animate() {
