@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>Subvertiser - AR</title>
 
@@ -24,7 +25,7 @@
     <link rel="icon" href="./img/icon.png">
 </head>
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+<body style='margin : 0px; overflow: hidden;'>
 
     <!-- Navbar -->
     <div class="navigation container-fluid">
@@ -86,7 +87,7 @@
         fetchArtworks();
 
         async function fetchArtworks() {
-            const response = await fetch('./artworks.json');
+            const response = await fetch(' ./artworks.json ');
             if (!response.ok) {
                 const message = `Error occured when fetching json: ${response.status}`;
                 throw new Error(message);
@@ -111,13 +112,11 @@
                 antialias: true,
                 alpha: true
             });
-            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-                // renderer.setSize(1280, 960);
-
+            renderer.setClearColor(new THREE.Color('lightgrey '), 0)
             renderer.setSize(640, 480);
-            renderer.domElement.style.position = 'absolute'
-            renderer.domElement.style.top = '0px'
-            renderer.domElement.style.left = '0px'
+            renderer.domElement.style.position = 'absolute '
+            renderer.domElement.style.top = '0px '
+            renderer.domElement.style.left = '0px '
             document.body.appendChild(renderer.domElement);
 
             clock = new THREE.Clock();
@@ -146,7 +145,7 @@
             });
 
             // handle resize event
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize ', function() {
                 onResize()
             });
 
@@ -156,8 +155,8 @@
 
             // create atToolkitContext
             arToolkitContext = new THREEx.ArToolkitContext({
-                cameraParametersUrl: 'data/camera_para.dat',
-                detectionMode: 'mono'
+                cameraParametersUrl: 'data/camera_para.dat ',
+                detectionMode: 'mono '
             });
 
             // copy projection matrix to camera when initialization complete
@@ -173,14 +172,14 @@
             markerRoot1 = new THREE.Group();
             scene.add(markerRoot1);
             let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
-                type: 'pattern',
+                type: 'pattern ',
                 patternUrl: "./descriptors/t.patt",
             });
 
             markerRoot2 = new THREE.Group();
             scene.add(markerRoot2);
             let markerControls2 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot2, {
-                type: 'pattern',
+                type: 'pattern ',
                 patternUrl: "./descriptors/mbta.patt",
             });
 
