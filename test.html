@@ -98,7 +98,7 @@
         }
 
         function initialize() {
-            console.log("last updated:15:20;");
+            console.log("last updated:15:25;");
             scene = new THREE.Scene();
 
             let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
@@ -129,6 +129,8 @@
 
             arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType: 'webcam',
+                sourceWidth: window.innerWidth,
+                sourceHeight: window.innerHeight,
             });
 
             function onResize() {
