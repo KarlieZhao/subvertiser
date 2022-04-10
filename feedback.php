@@ -7,6 +7,12 @@ if(isset($_POST['submit'])){
     $mailto = "contact@subvertiser.org";
     $headers = "From: Subvertiser";
 
-    mail($mailto, $short, $headers);
-    header("Location: index.php?mailsend");
+    // mail($mailto, $short, $long, $headers);
+    mail(
+        $mailto,
+        $short,
+        $long
+    );
+    
+    // header("Location: index.php?mailsend");
 }
