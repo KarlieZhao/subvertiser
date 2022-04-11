@@ -193,7 +193,7 @@
                 //minUnvisibleDelay: 1,
             });
 
-            let current_artwork_index = Math.floor(Math.random() * artworkList.length);
+            current_artwork_index = Math.floor(Math.random() * artworkList.length);
             let planeWidth = artworkList[current_artwork_index].ratio;
 
             geometry1 = new THREE.PlaneBufferGeometry(planeWidth, 1, 4, 4);
@@ -218,6 +218,7 @@
 
         var lastDist = new THREE.Vector3(1, 1, 0);
         let currentScale = 2;
+        let current_artwork_index = 0;
 
         function update() {
             // update artoolkit on every frame
@@ -239,8 +240,12 @@
 
                         let xdist = Math.abs(pos1.x - pos2.x);
                         let ydist = Math.abs(pos1.y - pos2.y);
-
-                        let scale = 2 * Math.min(xdist, ydist);
+                        let scale = 2;
+                        if (artworkList[current_artwork_index].ratio > 1) { //width>height
+                            scale = 2 * ydist;
+                        } else {
+                            scale = 2 * xdist;
+                        }
                         currentScale = Math.lerp(currentScale, scale, 0.3);
                         mesh.scale.set(currentScale, currentScale, 1.0);
 

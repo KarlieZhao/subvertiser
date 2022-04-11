@@ -14,5 +14,5 @@ if(isset($_POST['submit'])){
         $long
     );
     
-    // header("Location: index.php?mailsend");
+    header("Location: https://subvertiser.art/instruction.html?mailsend");
 }

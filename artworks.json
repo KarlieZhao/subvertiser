@@ -23,14 +23,6 @@
         "description": ""
     },
     {
-        "name": "Graffiti!",
-        "filePath": "./artworks/artwork-3.png",
-        "width": 1024,
-        "height": 1195,
-        "ratio": 0.857,
-        "description": ""
-    },
-    {
         "name": "Skip Ad!",
         "filePath": "./artworks/artwork-4.png",
         "width": 1024,
