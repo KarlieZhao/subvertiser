@@ -1,9 +1,9 @@
 [{
         "name": "Charlie on the MTA",
-        "filePath": "./artworks/artwork-1.jpg",
-        "width": 1024,
+        "filePath": "./artworks/artwork-1.png",
+        "width": 1118,
         "height": 1024,
-        "ratio": 1,
+        "ratio": 1.092,
         "description": ""
     },
     {
@@ -21,6 +21,29 @@
         "height": 1195,
         "ratio": 0.857,
         "description": ""
+    },
+    {
+        "name": "Graffiti!",
+        "filePath": "./artworks/artwork-3.png",
+        "width": 1024,
+        "height": 1195,
+        "ratio": 0.857,
+        "description": ""
+    },
+    {
+        "name": "Skip Ad!",
+        "filePath": "./artworks/artwork-4.png",
+        "width": 1024,
+        "height": 550,
+        "ratio": 1.862,
+        "description": ""
+    },
+    {
+        "name": "Vandalism",
+        "filePath": "./artworks/artwork-5.png",
+        "width": 1024,
+        "height": 500,
+        "ratio": 2.048,
+        "description": ""
     }
-
 ]
