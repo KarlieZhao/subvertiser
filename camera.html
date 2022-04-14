@@ -210,6 +210,8 @@
             mesh.rotation.x = -Math.PI / 2;
             markerRoot1.add(mesh);
             smoothedRoot.add(mesh);
+
+            rotate_angle = (Math.random() - 0.5) * Math.PI * 0.7;
             // default normal of a plane is 0,0,1. Apply mesh rotation to it.
             // let clipPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(
             // new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
@@ -219,6 +221,7 @@
         var lastDist = new THREE.Vector3(1, 1, 0);
         let currentScale = 2;
         let current_artwork_index = 0;
+        let rotate_angle = 0;
 
         function update() {
             // update artoolkit on every frame
@@ -229,8 +232,6 @@
                 smoothedControls.update(markerRoot2);
 
                 if (markerRoot1.visible && markerRoot2.visible) {
-
-                    //TODO: rotation
 
                     blankTime = 0;
                     clearPrompt();
@@ -244,15 +245,20 @@
                         let xdist = Math.abs(pos1.x - pos2.x);
                         let ydist = Math.abs(pos1.y - pos2.y);
                         let scale = 2;
-                        if (artworkList[current_artwork_index].ratio > 1) {
+
+                        if (artworkList[current_artwork_index].ratio > 1.3) {
                             //width > height
-                            scale = 2 * ydist;
+                            scale = (1.8 * xdist) / artworkList[current_artwork_index].ratio;
                         } else {
-                            scale = 2 * xdist;
+                            scale = 2 * Math.min(xdist, ydist);
+
                         }
                         currentScale = Math.lerp(currentScale, scale, 0.3);
                         mesh.scale.set(currentScale, currentScale, 1.0);
 
+                        if (artworkList[current_artwork_index].rotate == "y") {
+                            mesh.rotation.z = rotate_angle;
+                        }
                         mesh.position.x = (pos2.x - pos1.x) / 2;
                         mesh.position.y = (pos2.z - pos1.z) / 2;
                         mesh.position.z = -(pos2.y - pos1.y) / 2;
@@ -276,7 +282,6 @@
                 }
             }
         }
-
 
         function showPrompt() {
             var hint = document.getElementById("hint");

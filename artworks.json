@@ -4,7 +4,7 @@
         "width": 1118,
         "height": 1024,
         "ratio": 1.092,
-        "description": ""
+        "rotate": "n"
     },
     {
         "name": "Ahha! Graffiti!",
@@ -12,7 +12,7 @@
         "width": 1024,
         "height": 1674,
         "ratio": 0.611,
-        "description": ""
+        "rotate": "n"
     },
     {
         "name": "Graffiti!",
@@ -20,7 +20,7 @@
         "width": 1024,
         "height": 1195,
         "ratio": 0.857,
-        "description": ""
+        "rotate": "y"
     },
     {
         "name": "Skip Ad!",
@@ -28,7 +28,7 @@
         "width": 1024,
         "height": 550,
         "ratio": 1.862,
-        "description": ""
+        "rotate": "y"
     },
     {
         "name": "Vandalism",
@@ -36,6 +36,6 @@
         "width": 1024,
         "height": 500,
         "ratio": 2.048,
-        "description": ""
+        "rotate": "y"
     }
 ]
