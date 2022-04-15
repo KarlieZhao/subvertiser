@@ -68,6 +68,10 @@
         <a href="./instruction.html" style="color: rgb(171, 223, 255);">Click here to fix the problem!</a><br>
     </div>
 
+    <div id="readMore" class="hintbox" style="opacity: 0; color: #FFFFFF">
+        Read more about the work!
+    </div>
+
     <script>
         var scene, camera, renderer, clock, deltaTime, totalTime;
         var blankTime;
@@ -217,6 +221,8 @@
             // let clipPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(
             // new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
             // renderer.clippingPlanes = [clipPlane];
+
+
         }
 
         var lastDist = new THREE.Vector3(1, 1, 0);
@@ -225,6 +231,7 @@
         let rotate_angle = 0;
 
         function update() {
+
             // update artoolkit on every frame
             if (arToolkitSource.ready !== false) {
                 arToolkitContext.update(arToolkitSource.domElement);
@@ -233,7 +240,7 @@
                 smoothedControls.update(markerRoot2);
 
                 if (markerRoot1.visible && markerRoot2.visible) {
-
+                    readMore();
                     blankTime = 0;
                     clearPrompt();
                     clearOneMarkerPrompt();
@@ -271,14 +278,17 @@
                 } else if (markerRoot1.visible) {
                     // console.log("marker 1 visible");
                     oneMarkerPrompt();
+                    clearReadMore();
                     // smoothedControls.update(markerRoot1);
 
                 } else {
                     clearOneMarkerPrompt();
+                    clearReadMore();
                     blankTime++;
 
                     if (blankTime >= 400) {
                         showPrompt();
+
                     }
                 }
             }
@@ -317,6 +327,25 @@
             if (opacity > 0) {
                 opacity -= +0.05;
                 hint.style.opacity = opacity;
+            }
+        }
+
+        function readMore() {
+            var readmore = document.getElementById("readMore");
+            let opacity = Number(window.getComputedStyle(readmore).getPropertyValue("opacity"));
+            if (opacity < 1) {
+                opacity += 0.05;
+                readmore.style.opacity = opacity;
+            }
+            readmore.innerHTML = '<a href="./artworks/artwork-1.html" style="color: white;">Clicker here to read more about the work!</a>'
+        }
+
+        function clearReadMore() {
+            var readmore = document.getElementById("readMore");
+            let opacity = Number(window.getComputedStyle(readmore).getPropertyValue("opacity"));
+            if (opacity > 0) {
+                opacity -= 0.05;
+                readmore.style.opacity = opacity;
             }
         }
 
