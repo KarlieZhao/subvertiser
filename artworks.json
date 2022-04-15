@@ -10,17 +10,17 @@
         "name": "Ahha! Graffiti!",
         "filePath": "./artworks/artwork-2.png",
         "width": 1024,
-        "height": 1674,
-        "ratio": 0.611,
-        "rotate": "n"
+        "height": 604,
+        "ratio": 1.695,
+        "rotate": "y"
     },
     {
-        "name": "Graffiti!",
+        "name": "Instead of an Ad",
         "filePath": "./artworks/artwork-3.png",
         "width": 1024,
-        "height": 1195,
+        "height": 1024,
         "ratio": 0.857,
-        "rotate": "y"
+        "rotate": "n"
     },
     {
         "name": "Skip Ad!",
@@ -34,8 +34,15 @@
         "name": "Vandalism",
         "filePath": "./artworks/artwork-5.png",
         "width": 1024,
-        "height": 500,
-        "ratio": 2.048,
+        "height": 423,
+        "ratio": 2.421,
+        "rotate": "y"
+    }, {
+        "name": "Charlie Graffiti",
+        "filePath": "./artworks/artwork-6.png",
+        "width": 1024,
+        "height": 600,
+        "ratio": 1.707,
         "rotate": "y"
     }
 ]
