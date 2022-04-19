@@ -77,18 +77,34 @@
                             <h3>
                                 <b> <a href="./gallery.html" style="text-decoration: underline;">Section I. Artworks</a></b>
                             </h3>
-                            <br> some text some text some text some text some text some text some text some text some text some text
+                            <img src="images/manifesto-12.png" alt="" class="section-grids">
+
+                            <br>As a spontaneous reaction from the grassroots, street art responds to the oppression under authoritative power and the normalization of discipline. Street art in Boston is mostly in the form of graffiti and stickers, which
+                            appear almost everywhere from the busiest transportation center Back Bay, to the west neighborhood village Allston, and to the south of Boston where more minority communities take root. I took photos of some of the graffiti
+                            artworks, and applied similar aesthetics to the artworks in the Subvertiser project with inspiration borrowed from those graffiti. The location information of the original graffiti also appears along the artworks on the visitors’
+                            screens, so that they can go to the artwork’s page and read more about its background.
+                            <br>
+                            <img src="images/manifesto-11.png" alt="" class="section-grids" style="padding:5% ;">
+
+                            <br><br> Furthermore, the tension between the authorities and street artists is interesting - usually, street art is considered as vandalism and always cleaned up or covered by paints if it appears in public spaces. By adopting
+                            Web AR technology, this project takes a detour but makes it possible for graffiti to appear on the MBTA’s properties. I hope that this whole process extends the spirits in street art culture: tactical, but not compromising.
                             <br><br>
-                            <b>  <a href="https://graffitiboston.wordpress.com/why-is-graffiti-important/">Why is graffit inportant?</a>
+                            <b>  <a href="https://graffitiboston.wordpress.com/why-is-graffiti-important/" style="text-decoration: underline;">Why is graffit inportant?</a>
                          </b>
                             <br><br>
                         </div>
 
-                        <div class="section-grids__item">
+                        <div class="section-grids__item" style="margin-top:5rem;">
                             <h3>
                                 <b> Section II. Technology</b>
                             </h3>
-                            <br> This project adopted <a href="https://ar-js-org.github.io/AR.js-Docs/">AR.js</a> and <a href="https://threejs.org/">Three.js </a>to implement the web AR technology.
+                            <br><br> Web-based augmented reality is an emerging technology that started to be widely known from the 2020s. Compared to traditional AR technologies, Web AR has the advantage that no special applications are needed and it
+                            can run reasonably fast and smoothly on most browsers. This is a crucial benefit for this project, because the spontaneity of the browser-based AR greatly improves the user experience and makes the work more accessible. Instead
+                            of downloading an app, visitors are directly led to a webpage that requests using their cameras and renders AR content.
+                            <br><br>However, due to the immaturity of the technology, there are not many public resources for developing a Web AR program. In this project, I used an open source JavaScript library <a href="https://ar-js-org.github.io/AR.js-Docs/">AR.js</a>.
+                            The library has handy APIs which allow developers to use html tags for introducing AR content on a web page, but the features are limited and don’t entirely fit my needs. To increase its compatibility for this project, I combined
+                            AR.js with <a href="https://threejs.org/">Three.js </a>, a WebGL library for animated computer graphics.
+
                             <br><br> Further implementation includes
                             <ul>
                                 <li>Tracking multiple markers at the same time and determining images/models' dimensions based on the distance between the markers.</li>
@@ -97,16 +113,11 @@
                                 <li>Improvements on the stableness of marker detecting</li>
                             </ul>
 
-                            TODO:
-                            <ul>
-                                <li>Find the artwork whose length & width match the dimensions of the gap between two markers.</li>
-                            </ul>
-
                             <br><br>
 
                         </div>
 
-                        <div class="section-grids__item">
+                        <div class="section-grids__item" style="margin-top:5rem;">
                             <h3>
                                 <b> Section III. Stickers on the Streets!</b>
                             </h3>
@@ -121,46 +132,28 @@
                                     <!-- Repeat other items -->
                                 </div>
                                 <br>
-                            </div><br> Different versions of the sticker design. The goal is to make it deceptive enough so that it might not be so easily removed by the staff, but keep the aesthetics special and stylish.
-                            <br> The T icon, with its black border, is used as a marker to be tracked by the user's camera (hence it has to be big and clear). The QR code in the up right corner leads users to the website's camera (AR tracking) page.
-                            <br><br>
+                            </div><br> Different versions of the sticker design. The stickers are designed to be deceptive to trick the MBTA staff so that they will stay on the ads as much as they can.<br>
+                            <br> The T icon, with its black border, is used as a marker to be tracked by the user's camera (so it has to be big and clear). The QR code in the top right corner leads visitors to the website.
                             <br><br>
                         </div>
 
-                        <div class="section-grids__item">
+                        <div class="section-grids__item" style="margin-top:5rem;">
                             <h3>
                                 <b> Section IV. Documentation Video</b>
-                            </h3>
-                            <br>There should be a video coming very soon.<br><br> some text some text some text some text some text some text some text some text some text some text some text some text some text
-                            <br><br>some text some text some text some text some text some text some text some text some text some text some text some text some text
-                            <br><br>some text some text some text some text some text some text some text some text some text some text some text some text some text
+                            </h3><br>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/25jNZZbEGTo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             <br><br>
-
-                        </div>
-
-                        <div class="section-grids__item">
-                            <h3>
-                                <b> Section V. Website</b>
-                            </h3>
-                            <br> some text some text some text some text some text some text some text some text some text some text some text some text some text
-                            <br><br>
-
                         </div>
 
 
-                        <div class="section-grids__item">
+                        <div class="section-grids__item" style="margin-top:5rem;">
                             <h3>
-                                <b> Section VI. Participation</b>
+                                <b> Section V. Participation</b>
                             </h3>
-                            <br> some text some text some text some text some text some text some text some text some text some text
-                            <br><br>
-                            <!-- <div class="card card-hover h-100">
-              <div class="card-body">
-                <a href="index.html">
-                  <img class="card-img-top" src="img/photo-2.jpg" alt="Card image cap">
-                  </a>
-              </div>
-            </div> -->
+                            <br>The Subvertiser project is in need of collective efforts from the local community! Like many similar artworks, Subvertiser provides a platform to showcase artworks, and it’s important to integrate local audiences’ voices
+                            and artists’ works into the project. Subvertiser is trying to do this by seeking inspiration from local street art. However, we can push this further by encouraging people to share their thoughts or works with Subvertiser,
+                            and showcase them through our AR platform.<br>
+
                         </div>
                     </div>
                 </div>
