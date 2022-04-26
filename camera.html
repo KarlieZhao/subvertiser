@@ -221,14 +221,13 @@
             // let clipPlane = new THREE.Plane().setFromNormalAndCoplanarPoint(
             // new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 0));
             // renderer.clippingPlanes = [clipPlane];
-
-
         }
 
         var lastDist = new THREE.Vector3(1, 1, 0);
         let currentScale = 2;
         let current_artwork_index = 0;
         let rotate_angle = 0;
+
 
         function update() {
 
@@ -337,7 +336,7 @@
                 opacity += 0.05;
                 readmore.style.opacity = opacity;
             }
-            readmore.innerHTML = '<a href="./artworks/artwork-1.html" style= "color: white;">Click here to read more about the work!</a>'
+            readmore.innerHTML = '<a href="./artworks/artwork-' + current_artwork_index + '.html" style= "color: white;">Click here to read more about the work!</a>'
         }
 
         function clearReadMore() {
